@@ -17,16 +17,31 @@ class PassengerCountOrder implements Comparator<Car> {
 	}
 }
 
+interface CarCriterion{
+	boolean test(Car c);
+}
+
+class RedCarCriterion implements CarCriterion {
+
+	String selectedColor;
+
+	public RedCarCriterion(String selectedColor) {
+		this.selectedColor = selectedColor;
+	}
+
+	@Override
+	public boolean test(Car c) {
+		return c.getColor().equalsIgnoreCase(selectedColor);
+	}
+}
 
 @SpringBootApplication
 public class SimonApplication {
 
-
-
-	public static List<Car> getColoredCars(Iterable<Car> in, String color) {
+	public static List<Car> getSelectCars(Iterable<Car> in, CarCriterion carCriterion) {
 		List<Car> out = new ArrayList<>();
 		for (Car c : in ) {
-			if (c.getColor().equalsIgnoreCase(color)) {
+			if (carCriterion.test(c)) {
 				out.add(c);
 			}
 		}
@@ -63,9 +78,10 @@ public class SimonApplication {
 		);
 
 		showAll(cars);
+		showAll(getSelectCars(cars, new RedCarCriterion("Green")));
 //		showAll(getColoredCars(cars, "red"));
 //		showAll(getCarsByGasLevel(cars, 7));
-		cars.sort(new PassengerCountOrder());
+//		cars.sort(new PassengerCountOrder());
 		showAll(cars);
 
 		//		SpringApplication.run(SimonApplication.class, args);
