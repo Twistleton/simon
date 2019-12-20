@@ -1,7 +1,6 @@
 package com.rolfbenz.simon;
 
 import com.rolfbenz.simon.model.Car;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.ArrayList;
@@ -21,11 +20,11 @@ interface CarCriterion{
 	boolean test(Car c);
 }
 
-class RedCarCriterion implements CarCriterion {
+class ColorCarCriterion implements CarCriterion {
 
-	String selectedColor;
+	private String selectedColor;
 
-	public RedCarCriterion(String selectedColor) {
+	public ColorCarCriterion(String selectedColor) {
 		this.selectedColor = selectedColor;
 	}
 
@@ -35,6 +34,26 @@ class RedCarCriterion implements CarCriterion {
 	}
 }
 
+class GasLevelCarCriterion implements CarCriterion {
+
+	private int gasLevel;
+
+	public GasLevelCarCriterion(int gasLevel) {
+		this.gasLevel = gasLevel;
+	}
+
+	@Override
+	public boolean test(Car c) {
+		if (c.getGasLevel()<=gasLevel) {
+			return true;
+		} else                         {
+			return false;
+		}
+
+	}
+
+}
+
 @SpringBootApplication
 public class SimonApplication {
 
@@ -42,6 +61,16 @@ public class SimonApplication {
 		List<Car> out = new ArrayList<>();
 		for (Car c : in ) {
 			if (carCriterion.test(c)) {
+				out.add(c);
+			}
+		}
+		return out;
+	}
+
+	public static List<Car> getColoredCars(Iterable<Car> in, String color) {
+		List<Car> out = new ArrayList<>();
+		for (Car c : in ) {
+			if (c.getColor().equalsIgnoreCase(color)) {
 				out.add(c);
 			}
 		}
@@ -78,10 +107,11 @@ public class SimonApplication {
 		);
 
 		showAll(cars);
-		showAll(getSelectCars(cars, new RedCarCriterion("Green")));
+//		showAll(getSelectCars(cars, new ColorCarCriterion("Green")));
 //		showAll(getColoredCars(cars, "red"));
 //		showAll(getCarsByGasLevel(cars, 7));
 //		cars.sort(new PassengerCountOrder());
+		showAll(getSelectCars(cars, new GasLevelCarCriterion(7)));
 		showAll(cars);
 
 		//		SpringApplication.run(SimonApplication.class, args);
