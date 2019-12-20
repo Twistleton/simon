@@ -36,22 +36,31 @@ class ColorCarCriterion implements CarCriterion {
 
 class GasLevelCarCriterion implements CarCriterion {
 
-	private int gasLevel;
+	private int threshold;
 
-	public GasLevelCarCriterion(int gasLevel) {
-		this.gasLevel = gasLevel;
+	public GasLevelCarCriterion(int threshold) {
+		this.threshold = threshold;
 	}
 
 	@Override
 	public boolean test(Car c) {
-		if (c.getGasLevel()<=gasLevel) {
-			return true;
-		} else                         {
-			return false;
-		}
-
+		return c.getGasLevel()<=threshold;
 	}
 
+}
+
+class NumberOfPassengerCriterion implements CarCriterion {
+
+	private int passengerNumber;
+
+	public NumberOfPassengerCriterion(int passengerNumber) {
+		this.passengerNumber = passengerNumber;
+	}
+
+	@Override
+	public boolean test(Car c) {
+		return c.getPassengers().size()==passengerNumber;
+	}
 }
 
 @SpringBootApplication
@@ -107,11 +116,12 @@ public class SimonApplication {
 		);
 
 		showAll(cars);
-//		showAll(getSelectCars(cars, new ColorCarCriterion("Green")));
+		showAll(getSelectCars(cars, new NumberOfPassengerCriterion(4)));
+//		showAll(getSelectCars(cars, new ColorCarCriterion("Red")));
 //		showAll(getColoredCars(cars, "red"));
 //		showAll(getCarsByGasLevel(cars, 7));
 //		cars.sort(new PassengerCountOrder());
-		showAll(getSelectCars(cars, new GasLevelCarCriterion(7)));
+//		showAll(getSelectCars(cars, new GasLevelCarCriterion(7)));
 		showAll(cars);
 
 		//		SpringApplication.run(SimonApplication.class, args);
