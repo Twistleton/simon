@@ -1,8 +1,10 @@
-package com.rolfbenz.simon.model;
+package com.rolfbenz.simon;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+
 
 public class Car {
 
@@ -53,6 +55,52 @@ public class Car {
                 ", color='" + color + '\'' +
                 ", passengers=" + passengers +
                 (trunkContents != null ? "trunkContents=" + trunkContents : " no trunk");
+    }
+
+    public static CarCriterion getRedCarCriterion() {
+        return RED_CAR_CRITERION;
+    }
+
+    private static final RedCarCriterion RED_CAR_CRITERION = new RedCarCriterion();
+
+    private static class RedCarCriterion implements CarCriterion {
+
+        @Override
+        public boolean test(Car c) {
+            return c.color.equalsIgnoreCase("Red");
+        }
+    }
+
+    public static CarCriterion getGasLevelCarCriterion(int threshold) {
+        return new GasLevelCarCriterion(threshold);
+    }
+
+    private static class GasLevelCarCriterion implements CarCriterion {
+
+        private int threshold;
+
+        public GasLevelCarCriterion(int threshold) {
+            this.threshold = threshold;
+        }
+
+        @Override
+        public boolean test(Car c) {
+            return c.gasLevel<=threshold;
+        }
+    }
+
+    static class NumberOfPassengerCriterion implements CarCriterion {
+
+        private int passengerNumber;
+
+        public NumberOfPassengerCriterion(int passengerNumber) {
+            this.passengerNumber = passengerNumber;
+        }
+
+        @Override
+        public boolean test(Car c) {
+            return c.passengers.size()==passengerNumber;
+        }
     }
 
 }

@@ -1,12 +1,13 @@
 package com.rolfbenz.simon;
 
-import com.rolfbenz.simon.model.Car;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+
+import static com.rolfbenz.simon.Car.*;
 
 class PassengerCountOrder implements Comparator<Car> {
 
@@ -16,52 +17,12 @@ class PassengerCountOrder implements Comparator<Car> {
 	}
 }
 
+
 interface CarCriterion{
 	boolean test(Car c);
 }
 
-class ColorCarCriterion implements CarCriterion {
 
-	private String selectedColor;
-
-	public ColorCarCriterion(String selectedColor) {
-		this.selectedColor = selectedColor;
-	}
-
-	@Override
-	public boolean test(Car c) {
-		return c.getColor().equalsIgnoreCase(selectedColor);
-	}
-}
-
-class GasLevelCarCriterion implements CarCriterion {
-
-	private int threshold;
-
-	public GasLevelCarCriterion(int threshold) {
-		this.threshold = threshold;
-	}
-
-	@Override
-	public boolean test(Car c) {
-		return c.getGasLevel()<=threshold;
-	}
-
-}
-
-class NumberOfPassengerCriterion implements CarCriterion {
-
-	private int passengerNumber;
-
-	public NumberOfPassengerCriterion(int passengerNumber) {
-		this.passengerNumber = passengerNumber;
-	}
-
-	@Override
-	public boolean test(Car c) {
-		return c.getPassengers().size()==passengerNumber;
-	}
-}
 
 @SpringBootApplication
 public class SimonApplication {
@@ -108,17 +69,20 @@ public class SimonApplication {
 		System.out.println("main");
 
 		List<Car> cars = Arrays.asList(
-				Car.withGasColorPassengers(6, "Red", "Fred", "Jim", "Sheila"),
-				Car.withGasColorPassengers(3, "Octarine", "Rincewind", "Ridcully"),
-				Car.withGasColorPassengers(9, "Black", "Weatherwax", "Magrat"),
-				Car.withGasColorPassengers(7, "Green", "Valentine", "Gillian", "Anne", "Dr. Mahmoud"),
-				Car.withGasColorPassengers(6, "Red", "Ender", "Hyrum", "Locke", "Bonza")
+				withGasColorPassengers(6, "Red", "Fred", "Jim", "Sheila"),
+				withGasColorPassengers(3, "Octarine", "Rincewind", "Ridcully"),
+				withGasColorPassengers(9, "Black", "Weatherwax", "Magrat"),
+				withGasColorPassengers(7, "Green", "Valentine", "Gillian", "Anne", "Dr. Mahmoud"),
+				withGasColorPassengers(6, "Red", "Ender", "Hyrum", "Locke", "Bonza")
 		);
 
 		showAll(cars);
-		showAll(getSelectCars(cars, new NumberOfPassengerCriterion(4)));
-//		showAll(getSelectCars(cars, new ColorCarCriterion("Red")));
-//		showAll(getColoredCars(cars, "red"));
+//		showAll(getSelectCars(cars, new Car.NumberOfPassengerCriterion(4)));
+
+		showAll(getSelectCars(cars, Car.getRedCarCriterion()));
+		showAll(getSelectCars(cars, Car.getGasLevelCarCriterion(6)));
+
+		//		showAll(getColoredCars(cars, "red"));
 //		showAll(getCarsByGasLevel(cars, 7));
 //		cars.sort(new PassengerCountOrder());
 //		showAll(getSelectCars(cars, new GasLevelCarCriterion(7)));
