@@ -23,7 +23,6 @@ interface CarCriterion{
 }
 
 
-
 @SpringBootApplication
 public class SimonApplication {
 
