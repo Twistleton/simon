@@ -140,6 +140,28 @@ public class Car {
         }
     }
 
+//    public static Comparator getCarGasComparator = new CarGasComparator();
+//
+//    private static class CarGasComparator implements Comparator<Car> {
+//        @Override
+//        public int compare(Car o1, Car o2) {
+//            return o1.gasLevel - o2.getGasLevel();
+//        }
+//    }
+
+    // anonymous inner class
+//    public static Comparator getCarGasComparator = new Comparator<Car>() {
+//        @Override
+//        public int compare(Car o1, Car o2) {
+//            return o1.gasLevel - o2.getGasLevel();
+//        }
+//    };
+
+    // lambda expression
+    public static Comparator<Car> getCarGasComparator = (Car o1, Car o2) -> {
+            return o1.gasLevel - o2.getGasLevel();
+        };
+
 }
 
 
