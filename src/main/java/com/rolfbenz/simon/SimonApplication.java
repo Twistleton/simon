@@ -77,7 +77,7 @@ public class SimonApplication {
 //		showAll(getSelectCars(cars, new GasLevelCarCriterion(7)));
 
 		showAll(cars);
-		cars.sort(Car.getCarGasComparator);
+		cars.sort(Car.getGasComparator());
 		showAll(cars);
 
 		//		SpringApplication.run(SimonApplication.class, args);
