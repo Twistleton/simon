@@ -61,15 +61,23 @@ public class Car {
         return RED_CAR_CRITERION;                // return a singleton
     }
 
-    private static final RedCarCriterion RED_CAR_CRITERION = new RedCarCriterion();
+//    private static final CarCriterion RED_CAR_CRITERION = new /* RedCarCriterion();
+//
+//    private static class RedCarCriterion implements */ CarCriterion() {
+//
+//        @Override
+//        public boolean test(Car c) {
+//            return c.color.equalsIgnoreCase("Red");
+//        }
+//    };
 
-    private static class RedCarCriterion implements CarCriterion {
-
+    // anonymous inner class
+    private static final CarCriterion RED_CAR_CRITERION = new CarCriterion() {
         @Override
         public boolean test(Car c) {
             return c.color.equalsIgnoreCase("Red");
         }
-    }
+    };
 
     public static CarCriterion getGasLevelCarCriterion(int threshold) {
         return new GasLevelCarCriterion(threshold);
