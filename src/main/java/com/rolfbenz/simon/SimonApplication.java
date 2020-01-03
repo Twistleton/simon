@@ -4,24 +4,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
-import static com.rolfbenz.simon.Car.*;
-
-class PassengerCountOrder implements Comparator<Car> {
-
-	@Override
-	public int compare(Car o1, Car o2) {
-		return o1.getPassengers().size() - o2.getPassengers().size();
-	}
-}
-
+import static com.rolfbenz.simon.Car.withGasColorPassengers;
 
 interface CarCriterion{
 	boolean test(Car c);
 }
-
 
 @SpringBootApplication
 public class SimonApplication {
@@ -80,10 +69,11 @@ public class SimonApplication {
 
 		showAll(getSelectCars(cars, Car.getRedCarCriterion()));
 		showAll(getSelectCars(cars, Car.getGasLevelCarCriterion(6)));
+		showAll(getSelectCars(cars, Car.getPassengerByNameCriterion("Gillian")));
 
 		//		showAll(getColoredCars(cars, "red"));
 //		showAll(getCarsByGasLevel(cars, 7));
-//		cars.sort(new PassengerCountOrder());
+//		cars.sort(new Car.PassengerCountOrder());
 //		showAll(getSelectCars(cars, new GasLevelCarCriterion(7)));
 		showAll(cars);
 

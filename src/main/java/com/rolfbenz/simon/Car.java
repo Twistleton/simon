@@ -2,9 +2,8 @@ package com.rolfbenz.simon;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-
-
 
 public class Car {
 
@@ -58,7 +57,8 @@ public class Car {
     }
 
     public static CarCriterion getRedCarCriterion() {
-        return RED_CAR_CRITERION;
+//        return new RedCarCriterion();            // return a new object
+        return RED_CAR_CRITERION;                // return a singleton
     }
 
     private static final RedCarCriterion RED_CAR_CRITERION = new RedCarCriterion();
@@ -85,7 +85,7 @@ public class Car {
 
         @Override
         public boolean test(Car c) {
-            return c.gasLevel<=threshold;
+            return c.gasLevel >= threshold;
         }
     }
 
@@ -100,6 +100,32 @@ public class Car {
         @Override
         public boolean test(Car c) {
             return c.passengers.size()==passengerNumber;
+        }
+    }
+
+    public static CarCriterion getPassengerByNameCriterion(String name) {
+        return new PassengerByNameCriterion(name);
+    }
+
+    private static class PassengerByNameCriterion implements CarCriterion {
+
+        private String name;
+
+        public PassengerByNameCriterion(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public boolean test(Car c) {
+            return c.getPassengers().contains(name);
+        }
+    }
+
+    class PassengerCountOrder implements Comparator<Car> {
+
+        @Override
+        public int compare(Car o1, Car o2) {
+            return o1.getPassengers().size() - o2.getPassengers().size();
         }
     }
 
