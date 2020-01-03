@@ -72,12 +72,15 @@ public class Car {
 //    };
 
     // anonymous inner class
-    private static final CarCriterion RED_CAR_CRITERION = new CarCriterion() {
-        @Override
-        public boolean test(Car c) {
-            return c.color.equalsIgnoreCase("Red");
-        }
-    };
+//    private static final CarCriterion RED_CAR_CRITERION = new CarCriterion() {
+//        @Override
+//        public boolean test(Car c) {
+//            return c.color.equalsIgnoreCase("Red");
+//        }
+//    };
+
+    // lambda expression
+    private static final CarCriterion RED_CAR_CRITERION = c -> c.color.equalsIgnoreCase("Red");
 
     public static CarCriterion getGasLevelCarCriterion(int threshold) {
         return new GasLevelCarCriterion(threshold);
