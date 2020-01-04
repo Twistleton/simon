@@ -17,11 +17,9 @@ class PassengerCountOrder implements Comparator<Car> {
 	}
 }
 
-
 interface CarCriterion{
 	boolean test(Car c);
 }
-
 
 @SpringBootApplication
 public class SimonApplication {

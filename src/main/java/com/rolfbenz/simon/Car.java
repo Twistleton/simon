@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-
-
 public class Car {
 
     private final int gasLevel;
@@ -57,19 +55,17 @@ public class Car {
                 (trunkContents != null ? "trunkContents=" + trunkContents : " no trunk");
     }
 
-    public static CarCriterion getRedCarCriterion() {
+    public static final CarCriterion getRedCarCriterion() {
         return RED_CAR_CRITERION;
     }
 
-    private static final RedCarCriterion RED_CAR_CRITERION = new RedCarCriterion();
-
-    private static class RedCarCriterion implements CarCriterion {
+    private static final CarCriterion RED_CAR_CRITERION = new CarCriterion() {
 
         @Override
         public boolean test(Car c) {
             return c.color.equalsIgnoreCase("Red");
         }
-    }
+    };
 
     public static CarCriterion getGasLevelCarCriterion(int threshold) {
         return new GasLevelCarCriterion(threshold);
