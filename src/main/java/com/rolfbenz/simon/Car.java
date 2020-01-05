@@ -56,7 +56,7 @@ public class Car {
                 (trunkContents != null ? "trunkContents=" + trunkContents : " no trunk");
     }
 
-    public static CarCriterion getRedCarCriterion() {
+    public static Criterion<Car> getRedCarCriterion() {
 //        return new RedCarCriterion();            // return a new object
         return RED_CAR_CRITERION;                // return a singleton
     }
@@ -80,17 +80,17 @@ public class Car {
 //    };
 
     // lambda expression
-    private static final CarCriterion RED_CAR_CRITERION = c -> c.color.equalsIgnoreCase("Red");
+    private static final Criterion<Car> RED_CAR_CRITERION = c -> c.color.equalsIgnoreCase("Red");
 
-    public static CarCriterion getGasLevelCarCriterion(int threshold) {
-        return new GasLevelCarCriterion(threshold);
+    public static Criterion<Car> getGasLevelCarCriterion(int threshold) {
+        return new GasLevelCriterion(threshold);
     }
 
-    private static class GasLevelCarCriterion implements CarCriterion {
+    private static class GasLevelCriterion implements Criterion<Car> {
 
         private int threshold;
 
-        public GasLevelCarCriterion(int threshold) {
+        public GasLevelCriterion(int threshold) {
             this.threshold = threshold;
         }
 
@@ -100,7 +100,7 @@ public class Car {
         }
     }
 
-    static class NumberOfPassengerCriterion implements CarCriterion {
+    static class NumberOfPassengerCriterion implements Criterion<Car> {
 
         private int passengerNumber;
 
@@ -114,11 +114,11 @@ public class Car {
         }
     }
 
-    public static CarCriterion getPassengerByNameCriterion(String name) {
+    public static Criterion<Car> getPassengerByNameCriterion(String name) {
         return new PassengerByNameCriterion(name);
     }
 
-    private static class PassengerByNameCriterion implements CarCriterion {
+    private static class PassengerByNameCriterion implements Criterion<Car> {
 
         private String name;
 
@@ -148,7 +148,7 @@ public class Car {
 //        @Override
 //        public int compare(Car o1, Car o2) {
 //            return o1.gasLevel - o2.getGasLevel();
-//        }
+//        }*
 //    }
 
     // anonymous inner class
@@ -161,6 +161,10 @@ public class Car {
 
     // lambda expression
     private static final Comparator<Car> gasComparator = (Car o1, Car o2) -> o1.gasLevel - o2.gasLevel;
+
+//    public static Criterion<Car> getFourPassengerCriterion() {
+//        return c -> c.getPassengers.size() == 4;
+//    }
 
 }
 

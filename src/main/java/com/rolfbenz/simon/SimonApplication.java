@@ -8,45 +8,26 @@ import java.util.List;
 
 import static com.rolfbenz.simon.Car.withGasColorPassengers;
 
-interface CarCriterion{
-	boolean test(Car c);
+@FunctionalInterface
+interface Criterion<E> {
+	boolean test(E c);
 }
 
 @SpringBootApplication
 public class SimonApplication {
 
-	public static List<Car> getSelectCars(Iterable<Car> in, CarCriterion carCriterion) {
-		List<Car> out = new ArrayList<>();
-		for (Car c : in ) {
-			if (carCriterion.test(c)) {
+	public static <E> List<E> getByCriterion(Iterable<E> in, Criterion<E> criterion) {
+		List<E> out = new ArrayList<>();
+		for (E c : in ) {
+			if (criterion.test(c)) {
 				out.add(c);
 			}
 		}
 		return out;
 	}
 
-	public static List<Car> getColoredCars(Iterable<Car> in, String color) {
-		List<Car> out = new ArrayList<>();
-		for (Car c : in ) {
-			if (c.getColor().equalsIgnoreCase(color)) {
-				out.add(c);
-			}
-		}
-		return out;
-	}
-
-	public static List<Car> getCarsByGasLevel(Iterable<Car> in, int gasLevel) {
-		List<Car> out = new ArrayList<>();
-		for (Car c : in ) {
-			if (c.getGasLevel()<=gasLevel) {
-				out.add(c);
-			}
-		}
-		return out;
-	}
-
-	public static void showAll(List<Car> lc) {
-		for (Car c : lc) {
+	public static <E> void showAll(List<E> lc) {
+		for (E c : lc) {
 			System.out.println(c);
 		}
 		System.out.println("----------------------------------------------------------------------------------------");
@@ -67,9 +48,9 @@ public class SimonApplication {
 		showAll(cars);
 //		showAll(getSelectCars(cars, new Car.NumberOfPassengerCriterion(4)));
 
-		showAll(getSelectCars(cars, Car.getRedCarCriterion()));
-		showAll(getSelectCars(cars, Car.getGasLevelCarCriterion(6)));
-		showAll(getSelectCars(cars, Car.getPassengerByNameCriterion("Gillian")));
+		showAll(getByCriterion(cars, Car.getRedCarCriterion()));
+		showAll(getByCriterion(cars, Car.getGasLevelCarCriterion(6)));
+		showAll(getByCriterion(cars, Car.getPassengerByNameCriterion("Gillian")));
 
 		//		showAll(getColoredCars(cars, "red"));
 //		showAll(getCarsByGasLevel(cars, 7));
@@ -79,6 +60,21 @@ public class SimonApplication {
 		showAll(cars);
 		cars.sort(Car.getGasComparator());
 		showAll(cars);
+//		showAll(getByCriterion(cars, Car.getFourPassengerCriterion()));
+		showAll(cars);
+		showAll(getByCriterion(cars, c -> c.getColor().equalsIgnoreCase("Green")));
+
+//		Criterion blackCriterion = (Car c) -> c.getColor().equalsIgnoreCase("Black");
+
+//		showAll(getByCriterion(cars, blackCriterion));
+
+//		boolean test = ((Criterion) (c -> c.getColor().equalsIgnoreCase("Blue"))).test(withGasColorPassengers(0, "Blue"));
+
+//		System.out.println(test);
+
+
+		showAll(cars);
+		showAll(getByCriterion(cars, (Car c) -> c.getPassengers().contains("Locke")));
 
 		//		SpringApplication.run(SimonApplication.class, args);
 	}
