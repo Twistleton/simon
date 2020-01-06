@@ -2,6 +2,7 @@ package com.rolfbenz.simon;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -75,6 +76,18 @@ public class SimonApplication {
 
 		showAll(cars);
 		showAll(getByCriterion(cars, (Car c) -> c.getPassengers().contains("Locke")));
+
+
+		List<String> colors = Arrays.asList("Orange", "Red", "Blue", "Yellow", "pink", "plum", "gold");
+
+		showAll(getByCriterion(colors, st -> st.length() > 4));
+		showAll(getByCriterion(colors, st -> Character.isUpperCase(st.charAt(0))));
+
+		LocalDate today = LocalDate.now();
+
+		List<LocalDate> dates = Arrays.asList(today, today.plusDays(1), today.plusDays(7), today.minusDays(3));
+
+		showAll(getByCriterion(dates, ld -> ld.isAfter(today)));
 
 		//		SpringApplication.run(SimonApplication.class, args);
 	}
